@@ -187,6 +187,3 @@ print(access.text);
     );
   }
 }
-
-
-curl 'https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet%2CcontentDetails&mine=true&key=AIzaSyBBfBAyyKcmflKe00yobh3PozQFf0bAzZ4' --header 'Authorization: Bearer 4/1AY0e-g5KY5lFYEpTBVGyb09dMaKkxc_ryOoVSU0fuY3COK14UnyubL-E1Nw' --header 'Accept: application/json' --compressed
