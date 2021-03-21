@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'login_page.dart';
 import 'sign_in.dart';
@@ -16,14 +13,10 @@ import 'dart:ui';
 // ignore: must_be_immutable
 class FirstScreen extends StatefulWidget {
   // ignore: unused_field
-  var _accessToken;
-
-  FirstScreen( access) {
-    this._accessToken = access;
-  }
+  
 
   @override
-  _FirstScreenState createState() => _FirstScreenState(_accessToken);
+  _FirstScreenState createState() => _FirstScreenState();
 }
 
 class _FirstScreenState extends State<FirstScreen> {
@@ -32,14 +25,9 @@ class _FirstScreenState extends State<FirstScreen> {
   String name;
   String email;
   String imageUrl;
-  var access;
-    _FirstScreenState (x){
-    access=x;
-  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initial();
   }
@@ -48,9 +36,7 @@ class _FirstScreenState extends State<FirstScreen> {
     logindata = await SharedPreferences.getInstance();
     //call();
     //getRequest();
-print(access.text);
     setState(() {
-      print(access.text);
       name = logindata.getString('name');
       imageUrl = logindata.getString('imageUrl');
       email = logindata.getString('email');
@@ -66,23 +52,7 @@ print(access.text);
       from_net = decodedData['query'];
     });
   }
-// GET https://youtube.googleapis.com/youtube/v3/activities?mine=true&key=[YOUR_API_KEY] HTTP/1.1
 
-// Authorization: Bearer [YOUR_ACCESS_TOKEN]
-// Accept: application/json
- Future<List> getRequest() async {
-  
-    Response res = await http.get('https://youtube.googleapis.com/youtube/v3/activities?mine=true&key=AIzaSyBBfBAyyKcmflKe00yobh3PozQFf0bAzZ4',headers:{'Authorization':'Bearer '+access.text,'Accept':'application/json'});
-    
-      if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-        
-      print(body);
-      }
-      else if(res.statusCode==401){
-        print('false 401 ok');
-      }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +70,6 @@ print(access.text);
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              TextField(controller: access),
               CircleAvatar(
                 backgroundImage: NetworkImage(
                   imageUrl,
@@ -139,26 +108,7 @@ print(access.text);
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 40),
-              RaisedButton(onPressed:() async{
-                print(access.text);
-                print('Bearer '+access.text);
-                var json1=await http.get('https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet%2CcontentDetails&mine=true&key=AIzaSyBBfBAyyKcmflKe00yobh3PozQFf0bAzZ4',headers:{'Authorization': 'Bearer ' +access.text,'Accept':'application/json'});
-                var responseData = json.decode(json1.body); 
-                print(json1.statusCode);
-                //access.dispose();
-              },color: Colors.deepPurple,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'get token',
-                    style: TextStyle(fontSize: 25, color: Colors.white),
-                  ),
-                ),
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40)),
-              ),
-              SizedBox(height: 40),
+              // ignore: deprecated_member_use
               RaisedButton(
                 onPressed: () {
                   signOutGoogle();

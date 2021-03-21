@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'sign_in.dart';
-
 import 'first_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,47 +14,31 @@ class _LoginPageState extends State<LoginPage> {
   showAlertDialog(BuildContext context) {
 
   // set up the buttons
-  Widget continueButton = FlatButton(
-    child: Text("Continue"),
-    onPressed:  () {print("aaa");
-      return FirstScreen(myController.text);},
-  );
-
+  // ignore: deprecated_member_use
+  
   // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("AlertDialog"),
-    content: TextField(
-          controller: myController,
-        ),
-    actions: [
-      continueButton,
-    ],
-  );
+  
 
   // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  
 }
   SharedPreferences logindata;
   bool newuser;
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     check_if_already_login();
   }
 
+  // ignore: non_constant_identifier_names
   void check_if_already_login() async {
     logindata = await SharedPreferences.getInstance();
     newuser = (logindata.getBool('login') == true);
     print(newuser);
     if (newuser != false) {
       Navigator.pushReplacement(
-          context, new MaterialPageRoute(builder: (context) => FirstScreen(myController)));
+          context, new MaterialPageRoute(builder: (context) => FirstScreen()));
     }
   }
 
@@ -67,10 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
 
   }
-void _launchURL() async{
-  var _url="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fyoutube.readonly&response_type=code&state=security_token%3D138r5719ru3e1%26url%3Dhttps%3A%2F%2Foauth2.example.com%2Ftoken&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&client_id=799910629191-osm5ra0sk2ko49neeptrma6q1dibq7d0.apps.googleusercontent.com";
-    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +71,7 @@ void _launchURL() async{
   }
 
   Widget _signInButton() {
+    // ignore: deprecated_member_use
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () async{
@@ -101,6 +81,7 @@ void _launchURL() async{
             
             Navigator.of(context).push(
               MaterialPageRoute(
+                // ignore: missing_return
                 builder: (context) {
 
                   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -112,8 +93,8 @@ void _launchURL() async{
                   
                   if (currentUser.uid!=""){
                       
-                  _launchURL();
-                  return FirstScreen(myController);
+                  //_launchURL();
+                  return FirstScreen();
                   }
                 },
               ),
@@ -130,7 +111,7 @@ void _launchURL() async{
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            Image(image: AssetImage("lib/assets/google_logo.png"), height: 35.0),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
